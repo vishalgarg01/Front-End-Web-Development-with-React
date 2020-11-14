@@ -30,7 +30,9 @@ import {Link} from 'react-router-dom';
       );   
   }
   
-  const DishDetail=(props)=>{
+  // const DishDetail=(props)=>
+  function DishDetail(props)
+  {
     if (props.dish != null) {
       return (
         <div className="container">

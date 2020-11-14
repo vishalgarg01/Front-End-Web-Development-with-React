@@ -72,7 +72,7 @@ class Contact extends Component {
         if(this.state.touched.telnum &&!reg.test(telnum)){
             errors.telnum='Tel. number should contain only numbers';
         }
-        else if(telnum!=10)
+        else if(telnum!==10)
         {
             errors.telnum='Tel. number should be of 10 numbers' ;
         }

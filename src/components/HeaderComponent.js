@@ -28,7 +28,6 @@ class Header extends Component{
         alert("Username: " + this.username.value + " Password: " + this.password.value
             + " Remember: " + this.remember.checked);
         event.preventDefault();
-
     }
 
     render(){
@@ -36,7 +35,7 @@ class Header extends Component{
             <React.Fragment>                                {/* //    react fragment */}            
                 <Navbar dark expand="md">
                     <div className="container">
-                        <NavbarToggler onClick={this.toggleNav}/>
+                        <NavbarToggler onClick={this.toggleNav}/> {/*button to toggle navbar */}
                         <NavbarBrand className="mr-auto" href="/">
                             <img src="assets/images/logo.png" height="30" width="41" alt="Ristorante Con Fusion"></img>
                         </NavbarBrand>
