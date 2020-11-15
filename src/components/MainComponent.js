@@ -9,7 +9,7 @@ import Footer from './FooterComponent';
 import {Switch,Route,Redirect,withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-const mapStateToProps= state=>{  //state comes form reducers
+const mapStateToProps= state=>{  //state comes form reducers . it maps state to props
   return{
     dishes: state.dishes,
     comments: state.comments,
