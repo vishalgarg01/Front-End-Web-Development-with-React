@@ -3,6 +3,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle,BreadcrumbItem,Breadcrumb 
   Label,Row,Col,Modal,ModalBody,ModalHeader,Button } from "reactstrap";
 import {Link} from 'react-router-dom';
 import { Control,Errors,LocalForm } from "react-redux-form";
+import { addComment } from "../redux/ActionCreators";
 
 
 const required = (val) => val && val.length;
@@ -24,9 +25,9 @@ export class CommentForm extends Component{
       }
     
       handleSubmit(values) {
-        console.log("Current State is: " + JSON.stringify(values));
-        alert("Current State is: " + JSON.stringify(values));
-      }
+        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+       }
     render(){
         return(
             <React.Fragment>
@@ -51,15 +52,15 @@ export class CommentForm extends Component{
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="name" md={12}>Your Name</Label>
+                                <Label htmlFor="author" md={12}>Your Name</Label>
                                 <Col md={12}>
-                                    <Control.text model=".name" id="name" name="name"
+                                    <Control.text model=".author" id="author" name="author"
                                         placeholder="Your Name"
                                         className="form-control"
                                         validators={{
                                         required,minLength: minLength(3), maxLength: maxLength(15) }}
                                     />
-                                    <Errors className="text-danger" model=".name" show="touched"
+                                    <Errors className="text-danger" model=".author" show="touched"
                                       messages={{
                                         required: 'Required. ',
                                         minLength: 'Must be greater than 2 numbers. ',
@@ -90,20 +91,37 @@ export class CommentForm extends Component{
         )
     }
 }
-
-
-  function RenderComments({comments}) {
+//
+//<CommentForm dishId={dishId} addComment={addComment}/>        
+//
+  function RenderComments({comments,addComment,dishId}) {
     if (comments != null) {
-      let options = { year: "numeric", month: "short", day: "numeric" };
-      return comments.map(comment => (
-        <ul key={comment.id} className="list-unstyled">
-          <li className="mb-2">{comment.comment}</li>
-          <li>
-            -- {comment.author}{" "}
-            {new Date(comment.date).toLocaleDateString("en-US", options)}
-          </li>
-        </ul>
-      ));
+       let options = { year: "numeric", month: "short", day: "numeric" };
+      // return comments.map(comment => (
+      //   <ul key={comment.id} className="list-unstyled">
+      //     <li className="mb-2">{comment.comment}</li>
+      //     <li>
+      //       -- {comment.author}{" "}
+      //       {new Date(comment.date).toLocaleDateString("en-US", options)}
+      //     </li>
+      //   </ul>
+      // ));
+      return(
+        <div className="col-12 col-md-10 m-1">
+          <h4>Comments</h4>
+          <ul className="list-unstyled">
+          {comments.map((comment)=>{
+            return(
+              <li key={comment.id}>
+                <p>{comment.comment}</p>
+                <p>-- {comment.author}{"  "},{new Date(comment.date).toLocaleDateString("en-US", options)}</p>
+              </li>
+            );
+          })}
+          </ul>
+          <CommentForm dishId={dishId} addComment={addComment}/>   
+        </div>
+      );
       
     } else return <div />;
   }
@@ -148,8 +166,9 @@ export class CommentForm extends Component{
                 <RenderDish dish={props.dish} />
               </div>
               <div className="col-12 col-md-5 m-1">
-                <RenderComments comments={props.comments }/>
-                <CommentForm/>
+                <RenderComments comments={props.comments }
+                addComment={props.addComment}
+                dishId={props.dish.id}/>
               </div>
           </div>
         </div>
