@@ -4,6 +4,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle,BreadcrumbItem,Breadcrumb 
 import {Link} from 'react-router-dom';
 import { Control,Errors,LocalForm } from "react-redux-form";
 import { addComment } from "../redux/ActionCreators";
+import {Loading} from './LoadingComponent';
 
 
 const required = (val) => val && val.length;
@@ -91,21 +92,9 @@ export class CommentForm extends Component{
         )
     }
 }
-//
-//<CommentForm dishId={dishId} addComment={addComment}/>        
-//
   function RenderComments({comments,addComment,dishId}) {
     if (comments != null) {
        let options = { year: "numeric", month: "short", day: "numeric" };
-      // return comments.map(comment => (
-      //   <ul key={comment.id} className="list-unstyled">
-      //     <li className="mb-2">{comment.comment}</li>
-      //     <li>
-      //       -- {comment.author}{" "}
-      //       {new Date(comment.date).toLocaleDateString("en-US", options)}
-      //     </li>
-      //   </ul>
-      // ));
       return(
         <div className="col-12 col-md-10 m-1">
           <h4>Comments</h4>
@@ -141,7 +130,25 @@ export class CommentForm extends Component{
   // const DishDetail=(props)=>
   function DishDetail(props)
   {
-    if (props.dish != null) {
+    if(props.isLoading){
+      return(
+        <div className="container">
+          <div className="row">
+            <Loading/>
+          </div>
+        </div>
+      );
+    }
+    else if(props.errMess){
+      return(
+        <div className="container">
+          <div className="row">
+            <h4>{props.errMess}</h4>
+          </div>
+        </div>
+      );      
+    }
+    else if (props.dish != null) {
       return (
         <div className="container">
           <div className="row">
