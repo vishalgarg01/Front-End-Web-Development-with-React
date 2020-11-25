@@ -3,7 +3,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle,BreadcrumbItem,Breadcrumb 
   Label,Row,Col,Modal,ModalBody,ModalHeader,Button } from "reactstrap";
 import {Link} from 'react-router-dom';
 import { Control,Errors,LocalForm } from "react-redux-form";
-import { addComment } from "../redux/ActionCreators";
+import { postComment } from "../redux/ActionCreators";
 import {Loading} from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 
@@ -28,7 +28,7 @@ export class CommentForm extends Component{
     
       handleSubmit(values) {
         this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
        }
     render(){
         return(
@@ -93,7 +93,7 @@ export class CommentForm extends Component{
         )
     }
 }
-  function RenderComments({comments,addComment,dishId}) {
+  function RenderComments({comments,postComment,dishId}) {
     if (comments != null) {
        let options = { year: "numeric", month: "short", day: "numeric" };
       return(
@@ -109,7 +109,7 @@ export class CommentForm extends Component{
             );
           })}
           </ul>
-          <CommentForm dishId={dishId} addComment={addComment}/>   
+          <CommentForm dishId={dishId} postComment={postComment}/>   
         </div>
       );
       
@@ -175,7 +175,7 @@ export class CommentForm extends Component{
               </div>
               <div className="col-12 col-md-5 m-1">
                 <RenderComments comments={props.comments }
-                addComment={props.addComment}
+                postComment={props.postComment}
                 dishId={props.dish.id}/>
               </div>
           </div>

@@ -2,15 +2,43 @@ import * as ActionTypes from './ActionTypes';
 import { DISHES } from "../shared/dishes";
 import { baseUrl } from '../shared/baseUrl';
 //create a function to create action object which recieves 4 parameters
-export const addComment =(dishId,rating,author,comment)=>({
+export const addComment =(comment)=>({
     type:ActionTypes.ADD_COMMENT, //type of action
-    payload:{           //data store in action
-        dishId:dishId,
-        rating:rating,
-        author:author,
-        comment:comment,
-    }
+    payload:comment
 });
+
+export const postComment =(dishId,rating,author,comment)=>(dispatch)=>{
+    const newComment = {
+        dishId: dishId,
+        rating: rating,
+        author: author,
+        comment: comment
+    };
+    newComment.date = new Date().toISOString();
+    return fetch(baseUrl + 'comments', {
+        method: "POST",
+        body: JSON.stringify(newComment),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            throw error;
+      })
+    .then(response => response.json())
+    .then(response => dispatch(addComment(response)))
+    .catch(error =>  { console.log('post comments', error.message); alert('Your comment could not be posted\nError: '+error.message); });
+};
 //as this function add comments in previous one so we need to change comments.js file only
 
 //create a thunk

@@ -10,8 +10,8 @@ export const Comments = (state = { errMess: null, comments:[]}, action) => {
 
     case ActionTypes.ADD_COMMENT://allow user to add a new comment
         var comment = action.payload;
-        comment.id = state.comments.length;
-        comment.date = new Date().toISOString();
+        // comment.id = state.comments.length; this is given by server in POST
+        // comment.date = new Date().toISOString(); //use in postComment
         return { ...state, comments: state.comments.concat(comment)};
 
     default:
