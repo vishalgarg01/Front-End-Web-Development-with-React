@@ -32,7 +32,7 @@ class Header extends Component{
 
     render(){
         return(
-            <React.Fragment>                                {/* //    react fragment */}            
+            <React.Fragment>                                            
                 <Navbar dark expand="md">
                     <div className="container">
                         <NavbarToggler onClick={this.toggleNav}/> {/*button to toggle navbar */}
@@ -88,7 +88,7 @@ class Header extends Component{
                     <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={this.handleLogin}>
-                        <FormGroup>
+                             <FormGroup>
                                 <Label htmlFor="username">Username</Label>
                                 <Input type="text" id="username" name="username"
                                     innerRef={(input) => this.username = input} />
